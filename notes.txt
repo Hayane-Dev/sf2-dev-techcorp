@@ -299,12 +299,14 @@ NB: $article->getCommentaires() implique une requête SQL
 
 				 Ne pas oublier le use Gedmo\Mapping\Annotation as Gedmo;
 
-
-
-
-		
 		Pratique : refactoriser les entités du Blog
-
+		Utilisation du ParamConvecter
+			Ex: méthode viewAction($id) 
+			On passe à notre méthode un id, celui de l'article considéré
+			De là, on récupère l'entité Article (Utilisation du repo Article)
+			Puis on teste l'existence de l'entité (Génération d'une erreur 404 NotFoundHttpException)
+			Grâce au paramconvecter, on peut passer l'entité à la méthode viewAction(Article $article)
+			Symfony s'occupant de faire la liaison entre l'id(passé au noveau du template) et l'entité associée(récupérée dans le contrôleur).
 
 
 

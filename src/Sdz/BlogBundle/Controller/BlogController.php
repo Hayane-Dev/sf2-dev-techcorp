@@ -22,37 +22,20 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('SdzBlogBundle:Article');
         $articles = $repository->findAll();
-
-        // $art = $repository->findBy(
-        //     array('author' => 'Mek'),
-        //     array('date' => 'desc'),
-        //     1,
-        //     0
-        // );
-        // dump($art);die();
-
-        // $art = $repository->findOneBy(
-        //     array('author' => 'Mek')
-        // );
-        // dump($art);die();
-
-        // Query Builder
-        $art = $repository->myFindAll();
-        dump($art);die();
         
         return $this->render('SdzBlogBundle:Blog:index.html.twig', ['articles' => $articles]);
     }
 
     public function menuAction($number) 
     {
-        $lastArticlesList = [
-            ['id' => 3, 'title' => 'Symfony 2.7'],
-            ['id' => 4, 'title' => 'Twig'],
-            ['id' => 5, 'title' => 'HTML5'],
-            ['id' => 6, 'title' => 'ECMA Script'],
-            ['id' => 7, 'title' => 'VueJs'],
-            ['id' => 8, 'title' => 'Angular']
-        ];
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('SdzBlogBundle:Article');
+        $lastArticlesList = $repo->findBy(
+            [],
+            ['date' => 'DESC'],
+            $number,
+            0
+        );
 
         return $this->render('blog/menu.html.twig', ['list'=> $lastArticlesList]);
     }
@@ -69,19 +52,17 @@ class BlogController extends Controller
             throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
         }
 
-        // On récupère les commentaires associés à l'article
-        $repositoryCommentaire = $em->getRepository('SdzBlogBundle:Commentaire');
-        // $commentaires = $repositoryCommentaire->findByArticle($article);
-        $commentaires = $repositoryCommentaire->findByArticle($article->getId());
+        // On récupère les commentaires associés à l'article : tant que la relation était unidirectionnelle, on avait besoin de faire ça !!! La relation étant bidirectionnelle les commentaires sont maintenant accessible vie $article->getCommentaires(), au niveau du Twig article.commentaires
+        // $repositoryCommentaire = $em->getRepository('SdzBlogBundle:Commentaire');
+        // $commentaires = $repositoryCommentaire->findByArticle($article->getId());
 
         // On récupère les compétences liées à l'article
         $article_competences = $em->getRepository('SdzBlogBundle:ArticleCompetence')->findByArticle($article->getId());
-        // dump($article_competences);die();
         
 
         return $this->render('SdzBlogBundle:Blog:view.html.twig', [
             'article' => $article, 
-            'commentaires' => $commentaires,
+            // 'commentaires' => $commentaires,
             'article_competences' => $article_competences
         ]);
     }
@@ -90,9 +71,9 @@ class BlogController extends Controller
     {
         // Ajouter un article...
         $article = new Article();
-        $article->setTitle('Relation Bidirectionnelle')
+        $article->setTitle('Git')
                 ->setAuthor('Mek')
-                ->setContent('L\'entité Commentaire est Propriétaire alors que l\'entité Article est dîte Inverse. Leur relation est bidirectionnelle.');
+                ->setContent('Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency');
 
         // Lier une image à un article...
         $image = new Image();
@@ -101,21 +82,23 @@ class BlogController extends Controller
 
         $article->setImage($image);
 
+        // Avant que la relation ne devienne bidirectionnelle
         // Lier des commentaires à un article
         $comment1 = new Commentaire();
         $comment1->setAuthor('IbnMek')
-                 ->setContent('On peut maintenant faire un $article->getCommentaire() !')
+                 ->setContent('https://git-scm.com/')
                  ->setArticle($article); 
         $comment2 = new Commentaire();
         $comment2->setAuthor('IbnAbass')
-                 ->setContent('On peut toujours faire un $commentaire->getArticle() !')
+                 ->setContent('https://fr.wikipedia.org/wiki/Git')
                  ->setArticle($article); 
 
-        $em = $this->getDoctrine()->getManager();
+        // Relation bidirectionnelle
+        $article->addCommentaire($comment1);
+        $article->addCommentaire($comment2);
 
-        // Petite mise à jour
-        // $article2 = $em->getRepository('SdzBlogBundle:Article')->find(1);
-        // $article2->setContent('Al hamdoulillah 3ala Kouli \'hal');
+
+        $em = $this->getDoctrine()->getManager();
 
         // Lier les catégories
         $categories = $em->getRepository('SdzBlogBundle:Categorie')->findAll();
@@ -124,11 +107,12 @@ class BlogController extends Controller
         }
 
         $em->persist($article);
+        // Persist en cascade pour eviter ces 2 lignes
         $em->persist($comment1);
         $em->persist($comment2);
 
         // Les compétences
-        // Récup depuis le DB
+        // Récup depuis la DB
         $competences = $em->getRepository('SdzBlogBundle:Competence')->findAll();
         foreach ($competences as $key => $competence) {
             $articleCompetence[$key] = new ArticleCompetence();
@@ -143,7 +127,8 @@ class BlogController extends Controller
         if ($this->get('request')->getMethod() == 'POST') {
             // Traitement du formulaire, persister les datas en base
             // Message flash
-            $this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
+            // $this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
+            $this->get('session')->getFlashBag()->add('info', 'Article bien enregistré');
             // Redirection vers la page de visualisation de l'article
             return $this->redirect($this->generateUrl('sdz_blog_view', ['id' => $article->getId()]));
         }
@@ -155,15 +140,49 @@ class BlogController extends Controller
     public function editAction($id)
     {
         // Récupération de l'article d'id = $id
+        $em = $this->getDoctrine()->getManager();
+        $repositoryArticle = $em->getRepository('SdzBlogBundle:Article');
+
+        $article = $repositoryArticle->find($id);
+
+        if (null === $article) {
+            throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
+        }
+
         // Création et gestion du formulaire
+        if ($this->get('request')->getMethod() == 'POST') {
+            // Traitement du formulaire, persister les datas en base
+            // Message flash
+            $this->get('session')->getFlashBag()->add('info', 'Article bien modifié');
+            // Redirection vers la page de visualisation de l'article
+            return $this->redirect($this->generateUrl('sdz_blog_view', ['id' => $article->getId()]));
+        }
 
-        return $this->render('SdzBlogBundle:Blog:edit.html.twig', ['id' => $id]);
+        return $this->render('SdzBlogBundle:Blog:edit.html.twig', ['article' => $article]);
     }
 
-    public function removeAction($id)
+    public function removeAction($id) 
     {
-        return $this->render('SdzBlogBundle:Blog:remove.html.twig', ['id' => $id]);
-    }
+        // Récupération de l'article d'id = $id
+        $em = $this->getDoctrine()->getManager();
+        $repositoryArticle = $em->getRepository('SdzBlogBundle:Article');
 
+        $article = $repositoryArticle->find($id);
+
+        if (null === $article) {
+            throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
+        }
+
+        if ($this->get('request')->getMethod() == 'POST') {
+            // Traitement du formulaire, persister les datas en base
+            // Message flash
+            $this->get('session')->getFlashBag()->add('info', 'Article bien supprimé');
+            // Redirection vers la page d'accueil
+            return $this->redirect($this->generateUrl('sdz_blog_home'));
+        }
+
+        // Si la requête est en GET, on affiche une page de confirmation avant de supprimer
+        return $this->render('SdzBlogBundle:Blog:remove.html.twig', ['article' => $article]);
+    }
 }
 

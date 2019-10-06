@@ -76,7 +76,7 @@ class Article
     private $commentaires;
 
     /**
-     * @var \DateTime $dateEdition
+     * @var \DateTime
      * 
      * @ORM\Column(name="date_edition", type="datetime", nullable=true)
      */
@@ -93,11 +93,13 @@ class Article
     /**
      * Constructeur
      */
-    public function __construct()
-    {
+    public function __construct() {
         // Par défaut la date de l'article est la date du jour 
         $this->date = new \Datetime();
         $this->published = true;
+        // ArrayCollection
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -106,8 +108,7 @@ class Article
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -118,8 +119,7 @@ class Article
      *
      * @return Article
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
 
         return $this;
@@ -130,8 +130,7 @@ class Article
      *
      * @return \DateTime
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
@@ -142,8 +141,7 @@ class Article
      *
      * @return Article
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -154,8 +152,7 @@ class Article
      *
      * @return string
      */
-    public function getTitle()         
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -166,8 +163,7 @@ class Article
      *
      * @return Article
      */
-    public function setAuthor($author)
-    {
+    public function setAuthor($author) {
         $this->author = $author;
 
         return $this;
@@ -178,8 +174,7 @@ class Article
      *
      * @return string
      */
-    public function getAuthor()
-    {
+    public function getAuthor() {
         return $this->author;
     }
 
@@ -190,8 +185,7 @@ class Article
      *
      * @return Article
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->content = $content;
 
         return $this;
@@ -202,8 +196,7 @@ class Article
      *
      * @return string
      */
-    public function getContent()
-    {
+    public function getContent() {
         return $this->content;
     }
 
@@ -214,8 +207,7 @@ class Article
      *
      * @return Article
      */
-    public function setPublished($published)
-    {
+    public function setPublished($published) {
         $this->published = $published;
 
         return $this;
@@ -226,8 +218,7 @@ class Article
      *
      * @return boolean
      */
-    public function getPublished()
-    {
+    public function getPublished() {
         return $this->published;
     }
 
@@ -238,8 +229,7 @@ class Article
      *
      * @return Article
      */
-    public function setImage(\Sdz\BlogBundle\Entity\Image $image = null)
-    {
+    public function setImage(\Sdz\BlogBundle\Entity\Image $image = null) {
         $this->image = $image;
 
         return $this;
@@ -250,8 +240,7 @@ class Article
      *
      * @return \Sdz\BlogBundle\Entity\Image
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -262,8 +251,7 @@ class Article
      *
      * @return Article
      */
-    public function addCategory(\Sdz\BLogBundle\Entity\Categorie $category)
-    {
+    public function addCategory(\Sdz\BLogBundle\Entity\Categorie $category) {
         $this->categories[] = $category;
 
         return $this;
@@ -274,8 +262,7 @@ class Article
      *
      * @param \Sdz\BLogBundle\Entity\Categorie $category
      */
-    public function removeCategory(\Sdz\BLogBundle\Entity\Categorie $category)
-    {
+    public function removeCategory(\Sdz\BLogBundle\Entity\Categorie $category) {
         $this->categories->removeElement($category);
     }
 
@@ -284,8 +271,7 @@ class Article
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories()
-    {
+    public function getCategories() {
         return $this->categories;
     }
 
@@ -296,8 +282,7 @@ class Article
      *
      * @return Article
      */
-    public function addCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire)
-    {
+    public function addCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire) {
         $this->commentaires[] = $commentaire;
 
         // Découle du cadre bidirectionnelle de la relation
@@ -312,8 +297,7 @@ class Article
      *
      * @param \Sdz\BlogBundle\Entity\Commentaire $commentaire
      */
-    public function removeCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire)
-    {
+    public function removeCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire) {
         $this->commentaires->removeElement($commentaire);
     }
 
@@ -322,8 +306,7 @@ class Article
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCommentaires()
-    {
+    public function getCommentaires() {
         return $this->commentaires;
     }
 
@@ -334,8 +317,7 @@ class Article
      *
      * @return Article
      */
-    public function setDateEdition($dateEdition)
-    {
+    public function setDateEdition($dateEdition) {
         $this->dateEdition = $dateEdition;
 
         return $this;
@@ -346,8 +328,7 @@ class Article
      *
      * @return \DateTime
      */
-    public function getDateEdition()
-    {
+    public function getDateEdition() {
         return $this->dateEdition;
     }
 
@@ -365,8 +346,7 @@ class Article
      *
      * @return Article
      */
-    public function setSlug($slug)
-    {
+    public function setSlug($slug) {
         $this->slug = $slug;
 
         return $this;
@@ -377,8 +357,7 @@ class Article
      *
      * @return string
      */
-    public function getSlug()
-    {
+    public function getSlug() {
         return $this->slug;
     }
 }

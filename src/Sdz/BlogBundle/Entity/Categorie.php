@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\table(name="sdz_categorie")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\CategorieRepository")
  */
-class Categorie 
-{
+class Categorie {
 
     /**
      * @var integer
@@ -34,8 +33,7 @@ class Categorie
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -46,8 +44,7 @@ class Categorie
      *
      * @return Categorie
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -58,8 +55,7 @@ class Categorie
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 }

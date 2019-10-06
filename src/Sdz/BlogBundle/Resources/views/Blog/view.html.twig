@@ -38,7 +38,7 @@
      <div class="well">
         <h4>Liste des commentaires</h4>
         <ul>
-            {% for commentaire in commentaires %}
+            {% for commentaire in article.commentaires %}
                 <li>Par {{ commentaire.author }}, le {{ commentaire.date|date('d/m/Y')}} : {{ commentaire.content }}</li>
             {% endfor %}
         </ul>

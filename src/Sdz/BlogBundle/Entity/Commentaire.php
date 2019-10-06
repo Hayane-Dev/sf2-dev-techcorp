@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="sdz_commentaire")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\CommentaireRepository")
  */
-class Commentaire 
-{
+class Commentaire {
     /**
      * @var integer $id
      * 
@@ -50,8 +49,7 @@ class Commentaire
      */
     private $article;
 
-    public function __construct() 
-    {
+    public function __construct() {
         $this->date = new \DateTime();
     }
 
@@ -60,8 +58,7 @@ class Commentaire
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -72,8 +69,7 @@ class Commentaire
      *
      * @return Commentaire
      */
-    public function setAuthor($author)
-    {
+    public function setAuthor($author) {
         $this->author = $author;
 
         return $this;
@@ -84,8 +80,7 @@ class Commentaire
      *
      * @return string
      */
-    public function getAuthor()
-    {
+    public function getAuthor() {
         return $this->author;
     }
 
@@ -96,8 +91,7 @@ class Commentaire
      *
      * @return Commentaire
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->content = $content;
 
         return $this;
@@ -108,8 +102,7 @@ class Commentaire
      *
      * @return string
      */
-    public function getContent()
-    {
+    public function getContent() {
         return $this->content;
     }
 
@@ -120,8 +113,7 @@ class Commentaire
      *
      * @return Commentaire
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
 
         return $this;
@@ -132,8 +124,7 @@ class Commentaire
      *
      * @return \DateTime
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
@@ -144,8 +135,7 @@ class Commentaire
      *
      * @return Commentaire
      */
-    public function setArticle(\Sdz\BlogBundle\Entity\Article $article)
-    {
+    public function setArticle(\Sdz\BlogBundle\Entity\Article $article) {
         $this->article = $article;
 
         return $this;
@@ -156,8 +146,7 @@ class Commentaire
      *
      * @return \Sdz\BlogBundle\Entity\Article
      */
-    public function getArticle()
-    {
+    public function getArticle() {
         return $this->article;
     }
 }

@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="sdz_image")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\ImageRepository")
  */
-class Image
-{
+class Image {
     /**
      * @var integer
      * 
@@ -40,8 +39,7 @@ class Image
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -52,8 +50,7 @@ class Image
      *
      * @return Image
      */
-    public function setUrl($url)
-    {
+    public function setUrl($url) {
         $this->url = $url;
 
         return $this;
@@ -64,8 +61,7 @@ class Image
      *
      * @return string
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -76,8 +72,7 @@ class Image
      *
      * @return Image
      */
-    public function setAlt($alt)
-    {
+    public function setAlt($alt) {
         $this->alt = $alt;
 
         return $this;
@@ -88,8 +83,7 @@ class Image
      *
      * @return string
      */
-    public function getAlt()
-    {
+    public function getAlt() {
         return $this->alt;
     }
 }
