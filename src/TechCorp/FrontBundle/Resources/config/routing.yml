@@ -1,3 +1,16 @@
+test:
+    path: /salam/{name}
+    defaults: { _controller: TechCorpFrontBundle:Default:test }
+
 tech_corp_front_homepage:
-    path:     /salam/{name}
-    defaults: { _controller: TechCorpFrontBundle:Default:index }
+    path: /    
+    defaults: { _controller: TechCorpFrontBundle:Static:homePage }
+
+tech_corp_front_about:
+    path: /about  
+    defaults: { _controller: TechCorpFrontBundle:Static:about }
+
+tech_corp_front_user_timeline:
+    path: /timeline/{userId}  
+    defaults: { _controller: TechCorpFrontBundle:Timeline:userTimeline }
+

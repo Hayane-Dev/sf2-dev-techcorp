@@ -1,5 +1,71 @@
 <h3>Formulaire d'article</h3>
 
 <div class="well">
-    Formulaire ...
-</div>
+    {# <form method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <br>
+        <input type="submit" class="btn btn-primary" />
+    </form> #}
+    <form method="post" action="{{ path('sdz_blog_add') }}" {{ form_enctype(form) }}>
+        {# Les erreurs générales du form  #}
+        {{ form_errors(form) }}
+        <div>
+            {# Génération du label #}
+            {{ form_label(form.title, 'Titre de l\'article') }}
+            {# Affichage des erreurs pour ce champ #}
+            {{ form_errors(form.title) }}
+            {# Génération de l'input #}
+            {{ form_widget(form.title) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.date, 'Date') }}
+            {{ form_errors(form.date) }} 
+            {{ form_errors(form.heure) }}
+            {{ form_widget(form.date) }}
+            {{ form_widget(form.heure) }}
+        </div>
+        {# <div>
+            {{ form_label(form.heure, 'Heure') }}
+            {{ form_errors(form.heure) }}
+            {{ form_widget(form.heure) }}
+        </div> #}
+        <div>
+            {{ form_label(form.content, 'Contenu') }}
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content) }}
+        </div>
+        <div>
+            {{ form_label(form.author, 'Auteur') }}
+            {{ form_errors(form.author) }}
+            {{ form_widget(form.author) }}
+        </div>
+        {# <div>
+            {{ form_widget(form.published) }} {{ form_label(form.published, 'Publier') }}
+            {{ form_errors(form.published) }}
+        </div> #}
+        <div>
+            {{ form_label(form.image.url, 'Image url') }}
+            {{ form_errors(form.image.url) }}
+            {{ form_widget(form.image.url) }}
+        </div>
+        <div>
+            {{ form_label(form.image.alt, 'Image alt') }}
+            {{ form_errors(form.image.alt) }}
+            {{ form_widget(form.image.alt) }}
+        </div>
+        <div>
+            {{ form_label(form.commentaires, 'Commentaires') }}
+            {{ form_errors(form.commentaires) }}
+            {{ form_widget(form.commentaires) }}
+            <a href="#" id="add_comments" class="btn">Ajouter un commentaire</a>
+        </div>
+        <br>
+
+        {{ form_rest(form) }}
+
+        {# Ajout du lien add category #}
+        {# <a href="#" id="add_category" class="btn">Ajouter une catégorie</a> #}
+        <br>
+        <input type="submit" class="btn btn-primary" />
+    </form>
+ </div>

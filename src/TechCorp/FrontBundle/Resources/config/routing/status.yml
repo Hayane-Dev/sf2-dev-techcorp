@@ -1,0 +1,30 @@
+status:
+    path:     /
+    defaults: { _controller: "TechCorpFrontBundle:Status:index" }
+
+status_show:
+    path:     /{id}/show
+    defaults: { _controller: "TechCorpFrontBundle:Status:show" }
+
+status_new:
+    path:     /new
+    defaults: { _controller: "TechCorpFrontBundle:Status:new" }
+
+status_create:
+    path:     /create
+    defaults: { _controller: "TechCorpFrontBundle:Status:create" }
+    methods:  POST
+
+status_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TechCorpFrontBundle:Status:edit" }
+
+status_update:
+    path:     /{id}/update
+    defaults: { _controller: "TechCorpFrontBundle:Status:update" }
+    methods:  [POST, PUT]
+
+status_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TechCorpFrontBundle:Status:delete" }
+    methods:  [POST, DELETE]

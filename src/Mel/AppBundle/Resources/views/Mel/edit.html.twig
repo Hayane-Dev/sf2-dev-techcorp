@@ -1,0 +1,16 @@
+{% extends "MelAppBundle::layout.html.twig" %}
+
+{% block title %} {{ parent() }} - Editing Article {% endblock %}
+
+{% block body %}
+  <h2>Editing article number {{ id }}</h2>
+  <div id='form-edit'>
+    {% include "MelAppBundle:Mel:form.html.twig" %}
+  </div>
+  <p>
+    <a href="{{ path('melblog_view', {'id': id}) }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à l'article
+    </a>
+  </p>
+{% endblock %}

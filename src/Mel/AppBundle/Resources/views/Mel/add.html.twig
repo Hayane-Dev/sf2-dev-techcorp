@@ -1,0 +1,13 @@
+{% extends 'MelAppBundle::layout.html.twig' %}
+
+{% block title %} {{ parent() }} - Adding article {% endblock %}
+
+{% block body %}
+  <h2>Adding a new article</h2>
+  <div id="form-add">
+    {% include "MelAppBundle:Mel:form.html.twig" %}
+  </div>
+  <div id="message">
+    Warning: This article will be added to the home page after form submission
+  </div>
+{% endblock %}

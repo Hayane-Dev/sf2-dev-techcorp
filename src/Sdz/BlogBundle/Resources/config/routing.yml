@@ -1,5 +1,5 @@
 # symfony-2.7\my_project_name\src\Sdz\BlogBundle\Resources\config\routing.yml
-# Routes test
+# Routes test [useless]
 sdz_blog_homepage:
     path: /hello
     defaults: { _controller: SdzBlogBundle:Default:index }
@@ -11,6 +11,15 @@ sdz_blog_helloworld:
 sdz_blog_byebyeworld:
     path: /byebye_world
     defaults: { _controller: SdzBlogBundle:Blog:bye }
+
+sdz_blog_slug:
+    path: /{year}/{slug}.{format}
+    # par défaut, on veut comme format le html
+    defaults: { _controller: SdzBlogBundle:Blog:voirSlug, format: html }
+    # on ajoute des contraintes sur les params (expressions régulières)
+    requirements:
+        year: \d{4}
+        format: html|xml
 # Fin routes test
 
 # Routes utilisées dans le BLog
@@ -18,20 +27,22 @@ sdz_blog_home:
     # pattern: /blog
     pattern: /{page}
     defaults: { _controller: SdzBlogBundle:Blog:index, page: 1 }
+    # defaults: { _controller: SdzBlogBundle:Blog:default, page: 1 }
     requirements:
         page: \d*
+
+# CRUD DEB
+sdz_blog_add:
+    # pattern: /blog/add
+    pattern: /add
+    defaults: { _controller: SdzBlogBundle:Blog:add }
 
 sdz_blog_view:
     # pattern: /blog/article/{id}
     pattern: /view/article/{id}
     defaults: { _controller: SdzBlogBundle:Blog:view }
     requirements:
-        id: \d*
-
-sdz_blog_add:
-    # pattern: /blog/add
-    pattern: /add
-    defaults: { _controller: SdzBlogBundle:Blog:add }
+        id: \d+
 
 sdz_blog_edit:
     # pattern: /blog/edit
@@ -46,9 +57,14 @@ sdz_blog_remove:
     defaults: { _controller: SdzBlogBundle:Blog:remove }
     requirements:
         id: \d+
+# CRUD FIN
 
 sdz_blog_test:
     pattern: /test/{param}
     defaults: { _controller: SdzBlogBundle:Blog:test }
     requirements:
         param: \d+
+
+sdz_blog_testValidator:
+    pattern: /testValidator
+    defaults: { _controller: SdzBlogBundle:Blog:testValidator } 

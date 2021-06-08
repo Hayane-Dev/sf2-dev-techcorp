@@ -1,0 +1,25 @@
+{# <div class="row" class="status_container">
+  <div class="col-md-12">
+    <p>Par <a href="{{ path('tech_corp_front_user_timeline', { userId: status.user.id }) }}">{{ status.user.username }}</a></p>
+    <p>{{ status.content }}</p>
+    <p>{{ status.createdAt | date('d-m-Y H:i:s') }}</p>
+  </div>
+</div> #}
+<div class="card" style="margin-top:5px;background-color:#F3F3F3">
+  <div class="card-body">
+    <p>Par <a href="{{ path('tech_corp_front_user_timeline', { userId: status.user.id }) }}">{{ status.user.username }}</a></p>
+    <p>{{ status.content }}</p>
+    <p>{{ status.createdAt | date('d-m-Y H:i:s') }}</p>
+  </div>
+</div>
+<div>
+  {% for comment in status.comments %}
+    <div class="card" style="margin-top:5px;margin-left:20px;margin-right:-20px">
+      <div class="card-body">
+        <p>Commentaire de  <a href="{{ path('tech_corp_front_user_timeline', { userId: comment.user.id }) }}">{{ comment.user.username }}</a></p>
+        <p>{{ comment.content }}</p>
+        <p>{{ comment.createdAt | date('d-m-Y H:i:s') }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>

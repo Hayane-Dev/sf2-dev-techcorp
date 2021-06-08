@@ -8,7 +8,8 @@
 
         {% block stylesheets %}      
             {# <link rel="stylesheet" href="{{ asset('css/bootstrap/3.3.7/bootstrap.css') }}" type="text/css" />  #}
-            <link rel="stylesheet" href="{{ asset('css/bootstrap/2.3.2/bootstrap.css') }}" type="text/css" /> 
+            <link rel="stylesheet" href="{{ asset('css/bootstrap/2.3.2/bootstrap.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}" type="text/css" />
         {% endblock %}  
 
     </head>  
@@ -47,8 +48,11 @@
         {# jquery 1.7.2  #}
         {# jquery 3.2.1 #}
         <script type="text/javascript" src="{{ asset('js/jquery/3.2.1/jquery.min.js') }}"></script> 
+        {# jQuery UI #}
+        <script type="text/javascript" src="{{ asset('js/jquery/3.2.1/jquery-ui.js') }}"></script> 
          {# bootstrap 3.3.7 #}
         <script type="text/javascript" src="{{ asset('js/bootstrap/3.3.7/bootstrap.js') }}"></script>  
+        <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>  
     {% endblock %}  
 </body> 
 </html>

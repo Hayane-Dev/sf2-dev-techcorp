@@ -1,0 +1,114 @@
+# Routes test
+# mel_app_homepage:
+#     path: /
+#     defaults: { _controller: MelAppBundle:Default:index }
+
+mel_app_hello:
+    pattern: /hello/{name}
+    defaults: { _controller: MelAppBundle:Default:hello }
+
+mel_app_salam:
+    pattern: /salam
+    defaults: { _controller: MelAppBundle:Default:salam }
+
+mel_app_test1:
+    pattern: /test1
+    defaults: { _controller: MelAppBundle:Mel:test1 }
+
+mel_app_test2:
+    pattern: /test2/{txt}
+    defaults: { _controller: MelAppBundle:Mel:test2 }
+
+mel_app_test3:
+    pattern: /test3
+    defaults: { _controller: MelAppBundle:Mel:test3 }
+
+mel_app_test4:
+    pattern: /test4/{id}
+    defaults: { _controller: MelAppBundle:Mel:test4 }
+
+mel_app_test5:
+    pattern: /test5/{id}
+    defaults: { _controller: MelAppBundle:Mel:test5 }
+
+# Send Mail
+mel_app_test6:
+    pattern: /test6
+    defaults: { _controller: MelAppBundle:Mel:test6 }
+
+# Routes de notre MelBlog
+melblog_home: 
+    # pattern: /blog/{page}
+    pattern: /{page}
+    defaults: { _controller: MelAppBundle:Mel:index, page: 1 }
+    requirements:
+        page: \d*
+
+melblog_view:
+    # pattern: /blog/article/{id}
+    pattern: /article/{id}
+    defaults: { _controller: MelAppBundle:Mel:view }
+    requirements:
+        id: \d+
+
+melblog_view_slug:
+    # pattern: /blog/{year}/{slug}.{format}
+    pattern: /{year}/{slug}.{format}
+    defaults: { _controller: MelAppBundle:Mel:viewSlug, format: html }
+    requirements: 
+        year: \d{4}
+        format: html|xml
+
+melblog_add:
+    # pattern: /blog/add
+    pattern: /add
+    defaults: { _controller: MelAppBundle:Mel:add }
+
+melblog_edit:
+    # pattern: /blog/edit/{id}
+    pattern: /edit/{id}
+    defaults: { _controller: MelAppBundle:Mel:edit }
+    requirements:
+        id: \d+
+
+
+melblog_delete:
+    # pattern: /blog/delete/{id}
+    pattern: /delete/{id}
+    defaults: { _controller: MelBundle:Mel:delete }
+    requirements:
+        id: \d+
+
+melblog_getAllArticles:
+    pattern: /all-articles
+    defaults: { _controller: MelAppBundle:Mel:getAllArticles }
+
+melblog_getAllComments:
+    pattern: /all-comments
+    defaults: { _controller: MelAppBundle:Mel:getAllComments }
+
+# API
+melblog_getAllArticles_api:
+    pattern: /api/articles
+    defaults: { _controller: MelAppBundle:Mel:getArticles }
+    methods: GET
+
+melblog_getArticle_api:
+    pattern: /api/articles/{articleId}
+    defaults: { _controller: MelAppBundle:Mel:getArticle }
+    methods: GET
+
+melblog_getAllComments_api:
+    pattern: /api/comments
+    defaults: { _controller: MelAppBundle:Mel:getComments }
+    methods: GET
+
+melblog_getArticle_Comments_api:
+    pattern: /api/articles/{articleId}/comments
+    defaults: { _controller: MelAppBundle:Mel:getCommentsByArticle }
+    methods: GET
+
+melblog_addArticle_api:
+    pattern: /api/articles/add-article
+    defaults: { _controller: MelAppBundle:Mel:addArticle }
+    methods: POST

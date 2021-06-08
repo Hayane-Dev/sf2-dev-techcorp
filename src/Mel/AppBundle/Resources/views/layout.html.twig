@@ -1,0 +1,22 @@
+{# <!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}MelBlog{% endblock %}</title>
+  </head>
+  <body>
+    {% block body %} {% endblock %}
+  </body>
+</html> #}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}BLOG - {{ parent() }}{% endblock %}
+
+{% block body %}
+  <h1>Blog</h1>
+  <hr>
+
+  {% block mel_body %}{% endblock %}
+  
+{% endblock %}

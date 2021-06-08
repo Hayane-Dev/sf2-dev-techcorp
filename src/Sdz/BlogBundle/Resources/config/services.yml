@@ -1,4 +1,29 @@
 services:
-#    sdz_blog.example:
-#        class: Sdz\BlogBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    #sdz_blog.example:
+    #    class: Sdz\BlogBundle\Example
+    #    arguments: [@service_id, "plain_value", %parameter%]
+    # Le nom du service: Antiflood
+    sdzblog.validator.antiflood:
+        # classe du service
+        class: Sdz\BlogBundle\Validator\AntiFloodValidator
+        # arguments injectés au service
+        arguments: [@request, @doctrine.orm.entity_manager]
+        # on injecte la requête, on doit préciser ce scope
+        scope: request
+        tags: 
+            - { name: validator.constrainst_validator, alias: sdzblog_antiflood }
+            # C'est avec cet alias que l'on retrouvera le service
+    # Service Antispam
+    sdz_blog.antispam: 
+        class: Sdz\BlogBundle\Service\SdzAntispam
+        # arguments: [@doctrine, %locale%, 3]
+        arguments: [@doctrine, 3]
+        calls:
+            - [ setLocale, [ %locale% ] ]
+        tags:
+            - { name: twig.extension }
+    # Service Nouveau type de champ (formulaire)
+    sdz_blog.ckeditor:
+        class: Sdz\BlogBundle\Form\Extension\CkeditorType        
+        tags:            
+            - { name: form.type, alias: ckeditor }

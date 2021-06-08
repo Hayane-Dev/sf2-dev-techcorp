@@ -1,0 +1,9 @@
+{% extends "SdzBlogBundle::blog/layout.html.twig" %}
+
+{% block sdzblog_body %}
+    <h2>Test</h2>
+
+    {% if antispam_check("http://dfsdfdsfdsfdsfdsfdsfdsf.com http://dfsdfdsfdsfdsfdsfdsfdsf.com http://dfsdfdsfdsfdsfdsfdsfdsf.com") %}Texte saint{% else %}Texte spamé{% endif %}
+    
+
+{% endblock %}

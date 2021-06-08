@@ -1,0 +1,38 @@
+{# Template commun #}
+
+{# Utilisation d'une variable temporaire, qu'on définit à false si elle n'est pas déjà définit #}
+{% set accueil = accueil|default(false) %}
+
+<h2>  
+    {# On vérifie qu'une image soit bien associée à l'article #}  
+    {% if article.image is not null %}    
+        {# <img src="{{ asset(article.image.url) }}" alt="{{ article.image.alt }}" />  #}
+        <img src="{{ asset('bundles/sdzblog/img/ionic.png') }}" alt="{{ article.image.alt }}" style="width:50px;height:50px" />  
+    {% endif %}  
+
+    {# Si on est sur la page d'accueil, on fait un lien vers l'article, sinon non #}  
+    {% if accueil %}    
+        <a href="{{ path('sdz_blog_view', {'id': article.id} ) }}">{{ article.title }}</a>  
+    {% else %}    
+        {{ article.title }}  
+    {% endif %} 
+</h2> 
+
+<i>Le {{ article.date|date('d/m/Y') }}, par {{ article.author }}.</i> 
+
+<div class="well"> 
+    {{ article.content }} 
+</div> 
+
+{# On affiche les catégories éventuelles #} 
+{% if article.categories.count > 0 %}  
+<div class="well well-small">    
+    <p>
+        <i>Catégories :      
+            {% for categorie in article.categories %}
+                {{ categorie.name }} {% if not loop.last %}, {% endif %}      
+            {% endfor %}    
+        </i>
+    </p>  
+</div> 
+{% endif %}

@@ -1,0 +1,30 @@
+{% extends 'TechCorpFrontBundle::layout.html.twig' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Timeline</h1>
+
+    <table class="statuses_list table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User</th>
+          <th scope="col">Content</th>
+          <th scope="col">Deleted</th>
+          <th scope="col">CreatedAt</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for status in statuses %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td><a href="{{ path('tech_corp_front_user_timeline', { userId: status.user.id }) }}">{{ status.user.username }}</a></td>
+          <td>{{ status.content }}</td>
+          <td>{{ status.deleted ? 'Supprimé' : 'Visible' }}</td>
+          <td>{% if status.createdAt %} {{ status.createdAt | date('d-m-Y H:i:s') }} {% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

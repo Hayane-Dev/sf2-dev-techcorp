@@ -14,5 +14,8 @@ _errors:
     resource: '@TwigBundle/Resources/config/routing/errors.xml'
     prefix: /_error
 
+techcorp_dev:
+    resource: '@TechCorpFrontBundle/Resources/config/routing_dev.yml'
+    
 _main:
     resource: routing.yml

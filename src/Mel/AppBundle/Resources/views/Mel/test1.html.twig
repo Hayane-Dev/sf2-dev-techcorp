@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Salam</title>
+  </head>
+  <body>
+    <p>Salam 3aleikoum akhi {{ name }}! Kayfa 'alek al youm ?</p>
+    <p>
+      <a href="{{ path('mel_app_test2', {'txt':'Al hamdoulillah akhi !!!'}) }}">Page suivante</a>
+    </p>
+    <ul>
+      {% for message in app.session.flashbag.get('info') %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

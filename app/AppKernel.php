@@ -19,7 +19,9 @@ class AppKernel extends Kernel
             new TechCorp\FrontBundle\TechCorpFrontBundle(),
             new Sdz\BlogBundle\SdzBlogBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle()
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Mel\AppBundle\MelAppBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

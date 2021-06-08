@@ -1,0 +1,11 @@
+{% extends '::Tech/base.html.twig' %}
+
+{% block menu %}
+  {% include 'TechCorpFrontBundle:Components:navigation.html.twig' %}
+  {# {% render(controller("TechCorpFrontBundle:Static:menu")) %} #}
+{% endblock %}
+
+{% block body %}
+  {% block content %}
+  {% endblock %}
+{% endblock %}

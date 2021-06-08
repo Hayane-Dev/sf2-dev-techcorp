@@ -1,12 +1,21 @@
 # symfony-2.7\my_project_name\app\config\routing.yml
+
+mel_app:
+    resource: "@MelAppBundle/Resources/config/routing.yml"
+    prefix:   /mel/blog
+
 sdz_blog:
     resource: "@SdzBlogBundle/Resources/config/routing.yml"
-    # prefix:   /sdz/blog
-    prefix:   /blog
+    prefix:   /sdz/blog
 
+# Bundle relatif au sf2 book
 tech_corp_front:
     resource: "@TechCorpFrontBundle/Resources/config/routing.yml"
-    prefix:   /tech
+    prefix:   /
+
+# app/config/routing.yml
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 # app:
 #     resource: '@AppBundle/Controller/'

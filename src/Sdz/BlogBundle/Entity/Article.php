@@ -4,13 +4,20 @@ namespace Sdz\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+// use Symfony\Component\Validator\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Sdz\BlogBundle\Validator\AntiFlood;
 
 /**
  * Article
  *
  * @ORM\Table(name="sdz_article")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\ArticleRepository")
+ * @UniqueEntity(fields="title", message="Un article existe déjà avec ce title.") 
  * @ORM\HasLifecycleCallbacks()
+ * @Assert\Callback(methods={"contenuValide"})
  */
 class Article
 {
@@ -27,20 +34,33 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @Assert\DateTime()
      */
     private $date;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(
+     *  min = 10,
+     *  max = 50,
+     *  minMessage = "The title must be at least {{ limit }} characters long",
+     *  maxMessage = "The title cannot be longer than  {{ limit }} characters"
+     * )
      */
     private $title;
 
     /**
      * @var string
-     *
+     * 
      * @ORM\Column(name="author", type="string", length=255)
+     * @ORM\Column(name="titre", type="string", length=255, unique=true) 
+     * @Assert\Length(
+     *  min = 2,
+     *  max = 50,
+     *  minMessage = "The author must be at least {{ limit }} characters long",
+     *  maxMessage = "The author cannot be longer than  {{ limit }} characters"
+     * )
      */
     private $author;
 
@@ -48,6 +68,8 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
+     * @AntiFlood()
      */
     private $content;
 
@@ -55,13 +77,14 @@ class Article
      * @var bool
      * @ORM\Column(name="published", type="boolean")
      */
-    private $published;
+    private $published = false;
 
     /**
      * @var Sdz\BlogBundle\Entity\Image
      * 
      * @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
      */
     private $image;
 
@@ -360,4 +383,38 @@ class Article
     public function getSlug() {
         return $this->slug;
     }
+
+    // Contraintes sur les getters
+    /** 
+     * @Assert\isTrue(message="The article is invalid") 
+     */ 
+    public function isArticleValid() {  
+        return false; 
+    } 
+
+     /** 
+     * @Assert\isTrue() 
+     */ 
+    public function isTitleValid() { 
+        $title = $this->getTitle(); 
+        return (strlen($title) > 10 ? true : false); 
+    } 
+
+
+    // public function contenuValide(ExecutionContext $context) {
+    public function contenuValide(ExecutionContextInterface $context) {
+        $forbiddenWordslist = ["échec", "abandon"];
+
+        // Vérification que le contenu ne contient pas l'un des mots interdits
+        if (preg_match("#".implode("|", $forbiddenWordslist)."#", $this->getContent())) {
+            // La règle est violée, on définit l'erreur et son message
+            // Arg 1: On spécifie l'attribut concerné, ici, "content"
+            // Arg 2: Message d'erreur
+            $context->addViolationAtSubPath("content", "Contenu invalide car il contient un mot interdit.", array(), null);
+            // On peut cumuler plusieurs erreurs ... en spécifiant l'attribut concerné !!!
+            // On peut aller + loin et comparer des attributs entre eux, par ex interdire le pseudo dans le mot de passe...
+        }
+    }
+
+
 }

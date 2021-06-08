@@ -1,0 +1,31 @@
+{% extends "MelAppBundle::layout.html.twig" %}
+
+{% block title %} {{ parent() }} - View article {% endblock %}
+
+{% block mel_body %}
+  <h2>
+    {% if article.image is not null %}
+      <img src="{{ article.image.url }}" alt="{{ article.image.alt }}" />
+    {% endif %}
+    
+    {{ article.title }}
+  </h2>
+  <i>Par {{ article.author }}, le {{ article.date|date('d/m/Y')}}</i>
+
+  <div class="well">{{ article.content }}</div>
+
+  <p>
+    <a href="{{ path('melblog_home')}}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('melblog_edit', {'id': article.id }) }}" class="btn">
+      <i class="icon-edit"></i>
+      Editer
+    </a>
+    <a href="{{ path('melblog_delete', { 'id': article.id }) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer
+    </a>
+  </p>
+{% endblock %}

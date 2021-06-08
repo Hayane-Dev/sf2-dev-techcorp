@@ -14,21 +14,23 @@
     "require": {
         "php": ">=5.3.9",
         "doctrine/doctrine-bundle": "~1.4",
+        "doctrine/doctrine-fixtures-bundle": "2.x-dev",
         "doctrine/orm": "^2.4.8",
+        "friendsofsymfony/jsrouting-bundle": "^2.4",
+        "fzaninotto/faker": "~1.4",
         "incenteev/composer-parameter-handler": "~2.0",
+        "phpunit/phpunit": "5.7.*",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
+        "stof/doctrine-extensions-bundle": "v1.2.2",
         "symfony/assetic-bundle": "~2.3",
         "symfony/monolog-bundle": "^3.0.2",
         "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
         "symfony/symfony": "2.7.*",
-        "twig/twig": "^1.0||^2.0",
-        "doctrine/doctrine-fixtures-bundle": "2.x-dev",
-        "stof/doctrine-extensions-bundle": "v1.2.2"
+        "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
-        "symfony/phpunit-bridge": "~2.7"
+        "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
         "symfony-scripts": [

@@ -1,0 +1,31 @@
+services:
+    mel_app.comments_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Mel\AppBundle\Entity\Commentaire
+
+    mel_app.articles_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Mel\AppBundle\Entity\Article
+    
+    mel_app.categories_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Mel\AppBundle\Entity\Categorie
+
+    mel_app.mel_blog_manager:
+        class: Mel\AppBundle\Manager\MelBlogManager
+        arguments: 
+            # - @mel_app.articles_repository
+            # - @mel_app.comments_repository
+            # - @mel_app.categories_repository
+            - @doctrine.orm.entity_manager
+
+    mel_app.mel_blog_factory:
+        class: Mel\AppBundle\Factory\MelBlogFactory
+        arguments: 
+            - @mel_app.mel_blog_manager

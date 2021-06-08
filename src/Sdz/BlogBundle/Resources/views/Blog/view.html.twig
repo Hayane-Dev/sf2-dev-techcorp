@@ -7,22 +7,26 @@
 {% endblock %}
 
 {% block sdzblog_body %}
-    <h2>
+    
+    {# <h2>
         {% if article.image is not null %}
             <img src="{{ article.image.url }}" alt="{{ article.image.alt }}" />
         {% endif %}
         {{ article.title }}
     </h2>
-     <i>Par {{ article.author }}, le {{ article.date|date('d/m/Y') }}</i>  
-     {% if article.categories.count > 0 %}
+
+    <i>Par {{ article.author }}, le {{ article.date|date('d/m/Y') }}</i> 
+
+    {% if article.categories.count > 0 %}
         - Catégories :
         {% for categorie in article.categories %}
             {{ categorie.name }} 
             {% if not loop.last %} - {% endif %}
         {% endfor %}
-     {% endif %}
+    {% endif %}
      
      <div class="well">{{ article.content }}</div>  
+
      {% if article_competences|length > 0 %}
         <div class="well">
         <h4>Liste des compétences (liées à l'article)</h4>
@@ -35,6 +39,7 @@
             </ul>
         </div> 
      {% endif %}
+
      <div class="well">
         <h4>Liste des commentaires</h4>
         <ul>
@@ -42,7 +47,34 @@
                 <li>Par {{ commentaire.author }}, le {{ commentaire.date|date('d/m/Y')}} : {{ commentaire.content }}</li>
             {% endfor %}
         </ul>
-     </div> 
+     </div>  #}
+
+    {% include "SdzBlogBundle:Blog:article.html.twig" %}
+
+    {% if article_competences|length > 0 %}
+        <div class="well">
+            <h5>Liste des compétences (liées à l'article)</h5>
+            <ul>
+                {% for article_competence in article_competences %}
+                    <li>
+                        {{ article_competence.competence.name }} : {{ article_competence.level }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div> 
+    {% endif %}
+
+    {% if article.commentaires|length > 0 %}
+        <div class="well">
+            <h5>Liste des commentaires</h5>
+            <ul>
+                {% for commentaire in article.commentaires %}
+                    <li>Par {{ commentaire.author }}, le {{ commentaire.date|date('d/m/Y')}} : {{ commentaire.content }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
      <p>
         <a href="{{ path('sdz_blog_home') }}" class="btn">      
             <i class="icon-chevron-left"></i>Retour à la liste    
@@ -54,4 +86,5 @@
             <i class="icon-trash"></i>Supprimer l'article
         </a>
     </p>
+
 {% endblock %}

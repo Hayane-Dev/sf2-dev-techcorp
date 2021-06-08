@@ -1,0 +1,8 @@
+<h3>
+  Les derniers articles
+</h3>
+<ul class="nav nav-pills nav-stacked">
+  {% for article in list_articles %}
+    <li><a href="{{ path('melblog_view', {'id': article.id }) }}">{{ article.title }}</a></li>
+  {% endfor %}
+</ul>

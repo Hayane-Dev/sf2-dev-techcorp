@@ -2,6 +2,8 @@
 
 namespace Sdz\BlogBundle\Entity;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * ArticleRepository
  *
@@ -12,12 +14,6 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
     public function myFindAll()
     {
-        // $qb = $this->createQueryBuilder('a');
-        // $query = $qb->getQuery();
-        // $resultats = $query->getResult();
-
-        // return $resultats;
-
         return $this->createQueryBuilder('a')->getQuery()->getResult();
     }
 
@@ -73,5 +69,37 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
            ->andWhere($qb->exp()->in('c.name', $categorieNames)); // Permet de filtrer sur les noms des catégories
 
         return $qb->getQuery()->getResult();
+    }
+
+    // Optimisation (faire des jointures)
+    public function getArticles($nbPerPage, $page)
+    {
+        // Test sur l'argument $page
+        if ($page < 1) {
+            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "' . $page . '").');
+        }
+
+        $qb = $this->createQueryBuilder('a');
+        // On joint sur l'attribut image
+        $qb->leftJoin('a.image', 'i');
+        $qb->addSelect('i');
+        // On joint sur l'attribut categories
+        $qb->leftJoin('a.categories', 'cat');
+        $qb->addSelect('cat');
+        // On joint sur l'attribut commentaires
+        $qb->leftJoin('a.commentaires', 'com');
+        $qb->addSelect('com');
+        $qb->orderBy('a.date', 'DESC');
+
+        $query = $qb->getQuery();
+
+        // On doit définir l'article à partir duquel commence la liste (par page): $offset
+        // $page >= 1
+        $offset = ($page - 1) * $nbPerPage;
+        $query->setFirstResult($offset);
+        $query->setMaxResults($nbPerPage);
+
+        // return $query->getResult();
+        return new Paginator($query);
     }
 }

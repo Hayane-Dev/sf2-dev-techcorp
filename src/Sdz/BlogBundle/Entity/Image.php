@@ -3,6 +3,7 @@
 namespace Sdz\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Image
@@ -22,15 +23,20 @@ class Image {
 
     /**
      * @var string $url
-     * 
      * @ORM\Column(name="url", type="string", length=255)
+     * @Assert\Url()
      */
     private $url;
 
     /**
      * @var string $alt
-     * 
      * @ORM\Column(name="alt", type="string", length=255)
+     * @Assert\Length(
+     * min = 3,
+     * max = 15,
+     *  minMessage = "The title must be at least {{ limit }} characters long",
+     *  maxMessage = "The title cannot be longer than  {{ limit }} characters"
+     * )
      */
     private $alt;
 
